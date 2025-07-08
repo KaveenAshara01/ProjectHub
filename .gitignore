@@ -1,0 +1,59 @@
+# Virtual environment
+venv/
+.env/
+env/
+.venv/
+ENV/
+
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# Dependency directories
+site-packages/
+dist-packages/
+
+# Build and distribution
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Environment and configuration
+.env
+.flaskenv
+local_settings.py
+.python-version
+
+# System and IDE files
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+*.sublime-*
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Testing and coverage
+.coverage
+coverage/
+htmlcov/
+*.cover
+
+# Databases and miscellaneous
+*.sqlite3
+*.db
+*.pid
+*.seed
+*.pid.lock
