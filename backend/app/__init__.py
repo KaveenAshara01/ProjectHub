@@ -1,6 +1,9 @@
 from flask import Flask
 from app.extensions import db, migrate, jwt, cors
 from app.routes import register_blueprints
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def create_app():
     app = Flask(__name__)
