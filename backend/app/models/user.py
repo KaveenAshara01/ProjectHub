@@ -8,6 +8,11 @@ class User(db.Model):
     password_hash = db.Column(db.Text, nullable=False)
     role = db.Column(db.String(20), nullable=False, default='member')  # 'admin' or 'member'
 
+    projects = db.relationship('Project', backref='user', lazy=True, cascade="all, delete-orphan")
+    tasks = db.relationship('Task', backref='user', lazy=True, cascade="all, delete-orphan")
+    comments = db.relationship('Comment', backref='user', lazy=True, cascade="all, delete-orphan")
+
+
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
 

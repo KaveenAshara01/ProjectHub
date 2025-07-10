@@ -11,6 +11,8 @@ class Task(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     project_id = db.Column(db.Integer, db.ForeignKey('project.id'), nullable=False)
+    comments = db.relationship('Comment', backref='task', lazy=True, cascade="all, delete-orphan")
+
 
     def to_dict(self):
         return {

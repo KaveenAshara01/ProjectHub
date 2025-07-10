@@ -33,14 +33,20 @@ def get_projects():
 @project_bp.route('/projects/<int:project_id>', methods=['GET'])
 @jwt_required()
 def get_project(project_id):
-    project = Project.query.get_or_404(project_id)
+    user_id = get_jwt_identity()
+    project = Project.query.filter_by(id=project_id, user_id=user_id).first()
+    if not project:
+        return jsonify({"msg": "Not found or unauthorized"}), 404
     return jsonify(project.to_dict())
+
 
 
 @project_bp.route('/projects/<int:project_id>', methods=['PUT'])
 @jwt_required()
 def update_project(project_id):
-    project = Project.query.get_or_404(project_id)
+    project = Project.query.filter_by(id=project_id, user_id=user_id).first()
+    if not project:
+        return jsonify({"msg": "Project not found or unauthorized"}), 404
     data = request.get_json()
     project.title = data.get('title', project.title)
     project.description = data.get('description', project.description)
@@ -51,7 +57,9 @@ def update_project(project_id):
 @project_bp.route('/projects/<int:project_id>', methods=['DELETE'])
 @jwt_required()
 def delete_project(project_id):
-    project = Project.query.get_or_404(project_id)
+    project = Project.query.filter_by(id=project_id, user_id=user_id).first()
+    if not project:
+        return jsonify({"msg": "Project not found or unauthorized"}), 404
     db.session.delete(project)
     db.session.commit()
     return jsonify({"msg": "Project deleted"})
