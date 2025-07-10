@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.task import Task
 from app.extensions import db
+from app.utils.logger import log_activity
 
 task_bp = Blueprint('task', __name__)
 
@@ -20,6 +21,7 @@ def create_task():
     )
     db.session.add(task)
     db.session.commit()
+    log_activity(user_id, "create_task", f"User {user_id} created task '{task.title}'")
     return jsonify(task.to_dict()), 201
 
 

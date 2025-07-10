@@ -3,7 +3,7 @@ from app.routes.auth import auth_bp
 from app.routes.project import project_bp
 from app.routes.task import task_bp
 from app.routes.comment import comment_bp
-# from app.routes.activity import activity_bp
+from app.routes.activity import activity_bp
 
 def register_blueprints(app):
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
@@ -12,4 +12,4 @@ def register_blueprints(app):
     app.register_blueprint(task_bp, url_prefix='/api/tasks')
     
     app.register_blueprint(comment_bp, url_prefix='/api/comments')
-    # app.register_blueprint(activity_bp, url_prefix='/api/activities')
+    app.register_blueprint(activity_bp, url_prefix='/api/activity')

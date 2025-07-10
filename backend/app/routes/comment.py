@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.comment import Comment
 from app.extensions import db
+from app.utils.logger import log_activity
 
 comment_bp = Blueprint('comment', __name__)
 
@@ -22,6 +23,7 @@ def add_comment():
     )
     db.session.add(comment)
     db.session.commit()
+    log_activity(user_id, "comment", f"User {user_id} commented on task/project {data.get('task_id') or data.get('project_id')}")
     return jsonify(comment.to_dict()), 201
 
 
