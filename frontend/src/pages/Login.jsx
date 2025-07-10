@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Login = () => {
   const { login } = useAuth();
@@ -18,11 +19,14 @@ const Login = () => {
       const res = await axios.post("http://localhost:5000/api/auth/login", formData);
       const token = res.data.access_token;
 
-      // Store token and decode user
+      
       login(token);
 
       // Decode for redirection
-      const decoded = JSON.parse(atob(token.split(".")[1])); // or use jwtDecode(token)
+     // const decoded = JSON.parse(atob(token.split(".")[1])); // or use jwtDecode(token)
+      const decoded = jwtDecode(token);
+      console.log("Decoded token:", decoded);
+      console.log("Decoded role:", decoded.role);
       if (decoded.role === "admin") {
         navigate("/admin");
       } else {

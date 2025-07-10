@@ -38,11 +38,9 @@ def login():
         return jsonify({"msg": "Invalid credentials"}), 401
 
    # access_token = create_access_token(identity=str(user.id))
-    access_token = create_access_token(identity={
-    "id": user.id,
-    "username": user.username,
-    "role": user.role
-        })
+    additional_claims = {"username": user.username, "role": user.role}
+    access_token = create_access_token(identity=user.id, additional_claims=additional_claims)
+
 
     log_activity(user.id, "Logged in ", f"User {user.username} logged in to system ")
 
@@ -51,6 +49,7 @@ def login():
         "user": {
             "id": user.id,
             "username": user.username,
+            "role": user.role,
             "email": user.email
         }
     }), 200
