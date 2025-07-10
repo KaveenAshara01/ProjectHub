@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.project import Project
 from app.extensions import db
+from app.utils.logger import log_activity
 
 project_bp = Blueprint('project', __name__)
 
@@ -17,6 +18,7 @@ def create_project():
     )
     db.session.add(new_project)
     db.session.commit()
+    log_activity(user_id, "create_project", f"User {user_id} created project '{new_project.title}'")
     return jsonify(new_project.to_dict()), 201
 
 
