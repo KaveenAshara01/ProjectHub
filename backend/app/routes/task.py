@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.models.task import Task
 from app.extensions import db
 from app.utils.logger import log_activity
+from app.models.project import Project
 
 task_bp = Blueprint('task', __name__)
 
@@ -11,6 +12,11 @@ task_bp = Blueprint('task', __name__)
 def create_task():
     user_id = get_jwt_identity()
     data = request.get_json()
+
+    project = Project.query.filter_by(id=data.get('project_id'), user_id=user_id).first()
+    if not project:
+        return jsonify({"msg": "Project not found or unauthorized"}), 404
+
 
     task = Task(
         title=data['title'],
